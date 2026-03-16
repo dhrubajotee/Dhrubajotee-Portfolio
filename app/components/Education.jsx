@@ -1,49 +1,3 @@
-// import React from 'react'
-// import { Mail, Linkedin, Github, MapPin, Phone, Code, Database, Briefcase, GraduationCap, Globe } from 'lucide-react';
-
-
-// export const Education = () => {
-  
-    
-//       const education = [
-//         {
-//           degree: 'M.Sc. in Artificial Intelligence',
-//           school: 'University of Jyväskylä, Finland',
-//           period: 'Aug 2024 – July 2026',
-//           description: 'Currently pursuing advanced studies in AI, machine learning, and software systems'
-//         },
-//         {
-//           degree: 'B.Sc. in Computer Science and Engineering',
-//           school: 'Khulna University of Engineering & Technology, Bangladesh',
-//           period: 'Apr 2015 – Feb 2019',
-//           description: 'Engineering degree with focus on software development and systems'
-//         }
-//       ];
-  
-//     return (
-//           <section id="education" className="py-20 px-4 sm:px-6 lg:px-8 scroll-mt-20">
-//         <div className="max-w-6xl mx-auto">
-//           <h2 className="text-4xl font-bold text-white mb-12 text-center">Education</h2>
-//           <div className="space-y-6">
-//             {education.map((edu, index) => (
-//               <div key={index} className="bg-slate-800/50 p-6 rounded-xl border border-blue-500/20">
-//                 <div className="flex items-start gap-4">
-//                   <GraduationCap className="text-blue-400 mt-1" size={24} />
-//                   <div className="flex-1">
-//                     <h3 className="text-xl font-bold text-white mb-1">{edu.degree}</h3>
-//                     <p className="text-blue-400 mb-1">{edu.school}</p>
-//                     <p className="text-gray-400 text-sm mb-2">{edu.period}</p>
-//                     <p className="text-gray-300">{edu.description}</p>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </section>
-
-//   )
-// }
 import React from 'react';
 import { GraduationCap, MapPin } from 'lucide-react';
 
@@ -57,9 +11,9 @@ export const Education = () => {
       period: 'Aug 2024 – July 2026',
       status: 'ongoing',
       highlights: [
-        'Studying machine learning, deep learning, and AI systems',
-        'Coursework covering neural networks, data-driven methods, and intelligent systems',
-        'Building practical AI projects combining software engineering and ML concepts',
+        'Studying machine learning, deep learning, and AI systems with focus on practical applications',
+        'Developed EduSphere as part of the Cognitive Service Development Project course — a production-grade GenAI platform using Golang, React, and OpenAI GPT-4o-mini',
+        'Applying 4+ years of software engineering experience to AI systems design and development',
       ],
     },
     {
@@ -90,21 +44,19 @@ export const Education = () => {
 
                 {/* Timeline dot */}
                 <div className="relative z-10 flex-shrink-0">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
-                    edu.status === 'ongoing'
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${edu.status === 'ongoing'
                       ? 'bg-blue-600/20 border-blue-500 text-blue-400'
                       : 'bg-slate-700/60 border-slate-600 text-gray-400'
-                  }`}>
+                    }`}>
                     <GraduationCap size={18} />
                   </div>
                 </div>
 
                 {/* Card */}
-                <div className={`flex-1 bg-slate-800/50 rounded-xl border p-6 ${
-                  edu.status === 'ongoing'
+                <div className={`flex-1 bg-slate-800/50 rounded-xl border p-6 ${edu.status === 'ongoing'
                     ? 'border-blue-500/30'
                     : 'border-slate-700/40'
-                }`}>
+                  }`}>
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                     <div>
                       <h3 className="text-lg font-bold text-white mb-1">{edu.degree}</h3>

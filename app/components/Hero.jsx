@@ -4,9 +4,6 @@ import Image from 'next/image';
 export default function Hero() {
   return (
     <section id="about" className="relative pt-20 md:pt-32 pb-20 px-4 sm:px-6 lg:px-8 scroll-mt-20 overflow-hidden">
-
-      {/* Animated gradient orbs */}
-      {/* Animated gradient orbs */}
       <div className="absolute inset-0 -z-10">
         <div
           className="absolute w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[100px] -top-32 -left-32"

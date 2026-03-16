@@ -12,8 +12,8 @@ export default function Projects() {
   const projects = [
     {
       title: 'EduSphere',
-      category: 'Full-Stack AI Platform',
-      description: 'Production-grade GenAI platform that transforms academic transcripts into personalized course recommendations and scholarship matches using GPT-4o-mini and hybrid RAG.',
+      category: 'Cognitive Service Development Project · JYU',
+      description: 'Academic project from the Cognitive Service Development Project course at JYU. A production-grade GenAI platform that transforms academic transcripts into personalized course recommendations and scholarship matches using GPT-4o-mini and hybrid RAG.',
       longDescription: 'A full-stack Generative AI platform built with Golang Fiber, PostgreSQL, and React. Features AI-powered transcript analysis, hybrid RAG for real-time scholarship discovery via Brave Search API, a context-aware streaming chat interface, dynamic PDF report generation, and JWT authentication.',
       tech: ['Golang', 'Fiber', 'React', 'PostgreSQL', 'OpenAI GPT-4o-mini', 'Docker', 'Brave Search API', 'JWT'],
       features: [
