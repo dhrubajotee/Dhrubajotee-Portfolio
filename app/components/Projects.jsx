@@ -1,9 +1,13 @@
+"use client";
 import { useState } from "react";
-import { Github, ExternalLink, X } from 'lucide-react';
+import { Github, ExternalLink, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Projects() {
 
   const [selectedProject, setSelectedProject] = useState(null);
+  const [lightboxProject, setLightboxProject] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const projects = [
     {
@@ -21,6 +25,7 @@ export default function Projects() {
         'JWT authentication and secure user management',
         'CRUD operations for customizing course recommendations',
       ],
+      images: ['/assets/projects/edusphere-1.png', '/assets/projects/edusphere-2.png'],
       liveLink: 'https://youtu.be/h8KXbBzOn1c',
       githubLink: 'https://github.com/dhrubajotee/EduSphere',
       liveLabel: 'Watch Demo',
@@ -29,7 +34,7 @@ export default function Projects() {
     {
       title: 'My Linkki Tracker',
       category: 'Real-Time Transit App',
-      description: 'Real-time public transport tracker for Jyväskylä, Finland. Built using the official Linkki Open Data API with live bus locations, arrival times, and vehicle details.',
+      description: 'Real-time public transport tracker for Jyväskylä, Finland — built using the official Linkki Open Data API with live bus locations, arrival times, and vehicle details.',
       longDescription: 'A Next.js application integrating the Linkki Open Data API to display real-time bus arrival times and live vehicle information for any stop in Jyväskylä. Features favourite stop shortcuts, live GPS tracking, speed and license plate data, and Google Maps integration — deployed and live on Vercel.',
       tech: ['Next.js', 'React', 'JavaScript', 'Linkki Open Data API', 'Google Maps', 'Tailwind CSS', 'Vercel'],
       features: [
@@ -40,6 +45,7 @@ export default function Projects() {
         'Searchable dropdown covering all Linkki bus stops',
         'Responsive design deployed live on Vercel',
       ],
+      images: ['/assets/projects/linkki-1.png', '/assets/projects/linkki-2.png'],
       liveLink: 'https://my-linkki-tracker.vercel.app',
       githubLink: 'https://github.com/dhrubajotee/my-linkki-tracker',
       liveLabel: 'Live Demo',
@@ -58,6 +64,7 @@ export default function Projects() {
         '5-day weather forecast with detailed conditions',
         'Responsive glassmorphism UI',
       ],
+      images: ['/assets/projects/weather-1.png', '/assets/projects/weather-2.png'],
       liveLink: 'https://finnish-weather-dashboard.vercel.app/',
       githubLink: 'https://github.com/dhrubajotee/finnish-weather-dashboard',
       liveLabel: 'Live Demo',
@@ -66,9 +73,30 @@ export default function Projects() {
   ];
 
   const colorMap = {
-    purple: { border: 'border-purple-500/20 hover:border-purple-400/40', badge: 'bg-purple-600/20 text-purple-300', icon: 'text-purple-400', header: 'bg-purple-900/40' },
-    teal:   { border: 'border-teal-500/20 hover:border-teal-400/40',   badge: 'bg-teal-600/20 text-teal-300',   icon: 'text-teal-400',   header: 'bg-teal-900/40' },
-    blue:   { border: 'border-blue-500/20 hover:border-blue-400/40',   badge: 'bg-blue-600/20 text-blue-300',   icon: 'text-blue-400',   header: 'bg-blue-900/40' },
+    purple: { border: 'border-purple-500/20 hover:border-purple-400/40', badge: 'bg-purple-600/20 text-purple-300', icon: 'text-purple-400' },
+    teal:   { border: 'border-teal-500/20 hover:border-teal-400/40',   badge: 'bg-teal-600/20 text-teal-300',   icon: 'text-teal-400' },
+    blue:   { border: 'border-blue-500/20 hover:border-blue-400/40',   badge: 'bg-blue-600/20 text-blue-300',   icon: 'text-blue-400' },
+  };
+
+  const openLightbox = (e, project, index) => {
+    e.stopPropagation();
+    setLightboxProject(project);
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxProject(null);
+    setLightboxIndex(0);
+  };
+
+  const lightboxNext = (e) => {
+    e.stopPropagation();
+    setLightboxIndex(prev => (prev + 1) % lightboxProject.images.length);
+  };
+
+  const lightboxPrev = (e) => {
+    e.stopPropagation();
+    setLightboxIndex(prev => (prev - 1 + lightboxProject.images.length) % lightboxProject.images.length);
   };
 
   return (
@@ -82,24 +110,38 @@ export default function Projects() {
             return (
               <div
                 key={index}
-                className={`bg-slate-900/50 rounded-xl border ${c.border} transition-all cursor-pointer flex flex-col overflow-hidden`}
-                onClick={() => setSelectedProject(project)}
+                className={`bg-slate-900/50 rounded-xl border ${c.border} transition-all flex flex-col overflow-hidden`}
               >
-                {/* Card header */}
-                <div className={`${c.header} px-6 py-5 flex items-center justify-between`}>
-                  <div>
-                    <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${c.icon}`}>
-                      {project.category}
-                    </p>
-                    <h3 className="text-lg font-bold text-white">{project.title}</h3>
+                {/* Screenshot preview — click to open lightbox */}
+                <div
+                  className="relative h-48 overflow-hidden bg-slate-800 group cursor-zoom-in"
+                  onClick={(e) => openLightbox(e, project, 0)}
+                >
+                  <Image
+                    src={project.images[0]}
+                    alt={`${project.title} screenshot`}
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* Overlay hint */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-xs px-3 py-2 rounded-full">
+                      <ZoomIn size={13} />
+                      View screenshots
+                    </div>
                   </div>
-                  <div className={`w-10 h-10 rounded-lg ${c.badge} flex items-center justify-center flex-shrink-0`}>
-                    <Github size={18} className={c.icon} />
+                  {/* Image count badge */}
+                  <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
+                    {project.images.length} screenshots
                   </div>
                 </div>
 
                 {/* Card body */}
                 <div className="p-6 flex flex-col flex-1">
+                  <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${c.icon}`}>
+                    {project.category}
+                  </p>
+                  <h3 className="text-lg font-bold text-white mb-2">{project.title}</h3>
                   <p className="text-gray-300 text-sm leading-relaxed mb-4 flex-1">
                     {project.description}
                   </p>
@@ -123,7 +165,6 @@ export default function Projects() {
                         href={project.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
                         className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         <ExternalLink size={14} />
@@ -135,7 +176,6 @@ export default function Projects() {
                         href={project.githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
                         className="flex-1 flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         <Github size={14} />
@@ -150,78 +190,67 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Modal */}
-      {selectedProject && (
+      {/* Lightbox */}
+      {lightboxProject && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedProject(null)}
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center p-4"
+          onClick={closeLightbox}
         >
+          {/* Header */}
+          <div className="w-full max-w-5xl flex justify-between items-center mb-4" onClick={e => e.stopPropagation()}>
+            <div>
+              <p className="text-white font-medium">{lightboxProject.title}</p>
+              <p className="text-gray-400 text-sm">{lightboxIndex + 1} / {lightboxProject.images.length}</p>
+            </div>
+            <button
+              onClick={closeLightbox}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Image */}
           <div
-            className="bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-700"
-            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-5xl rounded-xl overflow-hidden"
+            style={{ height: '70vh' }}
+            onClick={e => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between p-6 border-b border-slate-700/60">
-              <div>
-                <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${colorMap[selectedProject.color].icon}`}>
-                  {selectedProject.category}
-                </p>
-                <h2 className="text-2xl font-bold text-white">{selectedProject.title}</h2>
-              </div>
+            <Image
+              src={lightboxProject.images[lightboxIndex]}
+              alt={`${lightboxProject.title} screenshot ${lightboxIndex + 1}`}
+              fill
+              className="object-contain"
+            />
+
+            {/* Prev / Next */}
+            {lightboxProject.images.length > 1 && (
+              <>
+                <button
+                  onClick={lightboxPrev}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white transition-colors"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={lightboxNext}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white transition-colors"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex gap-2 mt-4" onClick={e => e.stopPropagation()}>
+            {lightboxProject.images.map((_, i) => (
               <button
-                onClick={() => setSelectedProject(null)}
-                className="text-gray-400 hover:text-white transition-colors mt-1"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="p-6">
-              <p className="text-gray-300 leading-relaxed mb-6">{selectedProject.longDescription}</p>
-
-              <h3 className="text-base font-semibold text-white mb-3">Key features</h3>
-              <ul className="space-y-2 mb-6">
-                {selectedProject.features.map((feature, i) => (
-                  <li key={i} className="text-gray-300 text-sm flex gap-3 items-start">
-                    <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${colorMap[selectedProject.color].icon} bg-current`} />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <h3 className="text-base font-semibold text-white mb-3">Technology stack</h3>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {selectedProject.tech.map((tech) => (
-                  <span key={tech} className={`${colorMap[selectedProject.color].badge} px-3 py-1.5 rounded-full text-sm`}>
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-3">
-                {selectedProject.liveLink && (
-                  <a
-                    href={selectedProject.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
-                  >
-                    <ExternalLink size={16} />
-                    {selectedProject.liveLabel}
-                  </a>
-                )}
-                {selectedProject.githubLink && (
-                  <a
-                    href={selectedProject.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-medium transition-colors"
-                  >
-                    <Github size={16} />
-                    View on GitHub
-                  </a>
-                )}
-              </div>
-            </div>
+                key={i}
+                onClick={() => setLightboxIndex(i)}
+                className={`w-2 h-2 rounded-full transition-colors ${i === lightboxIndex ? 'bg-white' : 'bg-white/30'}`}
+              />
+            ))}
           </div>
         </div>
       )}

@@ -50,43 +50,38 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled
-        ? 'bg-slate-900/95 backdrop-blur-md shadow-lg shadow-black/20 border-b border-slate-700/50'
-        : 'bg-transparent border-b border-transparent'
-    }`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
+        ? 'bg-[#0a1628]/95 backdrop-blur-md shadow-lg shadow-black/30'
+        : 'bg-[#0a1628]/80 backdrop-blur-sm'
+      } border-b border-blue-500/10`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
 
           {/* Logo */}
           <button
             onClick={() => scrollToSection('about')}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2.5 group"
           >
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-sm font-bold group-hover:bg-blue-500 transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-blue-500/20">
               DH
             </div>
-            <span className="text-white text-sm font-medium hidden sm:block group-hover:text-blue-400 transition-colors">
+            <span className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors hidden sm:block">
               Dhrubajotee
             </span>
           </button>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-1">
+          {/* Desktop pill nav */}
+          <div className="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 rounded-full px-1.5 py-1.5">
             {sections.map((section) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className={`relative capitalize text-sm px-4 py-2 rounded-lg transition-all ${
-                  activeSection === section
-                    ? 'text-blue-400'
-                    : 'text-gray-400 hover:text-white hover:bg-slate-800/60'
-                }`}
+                className={`relative capitalize text-sm px-4 py-2 rounded-full transition-all duration-200 cursor-pointer ${activeSection === section
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  }`}
               >
                 {section}
-                {activeSection === section && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-blue-400 rounded-full" />
-                )}
               </button>
             ))}
           </div>
@@ -97,14 +92,14 @@ export default function Navbar() {
               href="/assets/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-2 border border-blue-500/50 hover:border-blue-400 hover:bg-blue-500/10 text-blue-400 hover:text-blue-300 text-sm px-4 py-2 rounded-lg transition-all"
+              className="hidden md:flex items-center gap-2 border border-blue-500/40 hover:border-blue-400 hover:bg-blue-500/10 text-blue-400 hover:text-blue-300 text-sm font-medium px-4 py-2 rounded-full transition-all duration-200"
             >
-              <Download size={14} />
+              <Download size={13} />
               Download CV
             </a>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden text-gray-300 hover:text-white transition-colors p-1"
+              className="md:hidden text-slate-300 hover:text-white transition-colors p-1"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -116,17 +111,16 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-slate-900/98 backdrop-blur-md border-t border-slate-700/50 px-4 py-4">
+        <div className="md:hidden bg-[#0a1628]/98 backdrop-blur-md border-t border-white/5 px-4 py-4">
           <div className="flex flex-col gap-1">
             {sections.map((section) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className={`capitalize text-sm text-left px-4 py-3 rounded-lg transition-colors ${
-                  activeSection === section
-                    ? 'text-blue-400 bg-blue-500/10'
-                    : 'text-gray-300 hover:text-white hover:bg-slate-800'
-                }`}
+                className={`capitalize text-sm text-left px-4 py-3 rounded-xl transition-colors cursor-pointer ${activeSection === section
+                    ? 'bg-blue-600 text-white'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 {section}
               </button>
@@ -135,7 +129,7 @@ export default function Navbar() {
               href="/assets/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 mt-2 border border-blue-500/40 text-blue-400 text-sm px-4 py-3 rounded-lg transition-colors hover:bg-blue-500/10"
+              className="flex items-center gap-2 mt-2 border border-blue-500/40 text-blue-400 text-sm px-4 py-3 rounded-xl transition-colors hover:bg-blue-500/10"
             >
               <Download size={14} />
               Download CV
