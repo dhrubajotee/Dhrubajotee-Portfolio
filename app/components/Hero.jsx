@@ -67,7 +67,7 @@ export default function Hero() {
 
           {/* Bio */}
           <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-            I build fast, reliable web applications — from banking platforms to enterprise ERPs.
+            I build fast, reliable web applications - from banking platforms to enterprise ERPs.
             With 4+ years of production experience in React, Next.js, and Node.js, I'm now
             expanding into AI/ML through my Master's at the University of Jyväskylä.
           </p>
